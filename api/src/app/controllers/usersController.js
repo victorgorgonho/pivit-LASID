@@ -123,8 +123,8 @@ module.exports = {
             
             mailer.sendMail({
                 to: email,
-                from: 'hope@lavid.ufpb.br',
-                subject: 'HOPE - Recureração de senha',
+                from: 'josegorgonho@eng.ci.ufpb.br',
+                subject: 'LASID - Recureração de senha',
                 template: 'auth/forgot_password',
                 context: {token},
             }, (error) =>{

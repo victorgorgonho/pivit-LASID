@@ -51,13 +51,8 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required:true,
     },
-    data:{
-        type: Date,
-        default: Date.now,
-    },
-    userTypeID:{
+    userType:{
         type: String,
-        ref: 'TypeUser',
         required: true,
     },
     passwordResetToken:{
