@@ -1,0 +1,53 @@
+const swaggerUi = require('swagger-ui-express');
+const express = require('express');
+const swaggerDocument = require('./docs/doc.json');
+const multer = require('multer');
+const multerConfig = require('./config/multer');
+
+//Importing middleware
+const authMiddleware = require('./app/middlewares/auth');
+
+//Importing controllers
+const usersController = require('./app/controllers/usersController');
+const sessionsController = require('./app/controllers/sessionsController');
+const imagesController = require('./app/controllers/imagesController');
+
+//Importing scripts
+const reCAPTCHA = require('./app/controllers/scripts/reCAPTCHA-v3');
+
+const routes = express.Router(); 
+
+routes.use('/docs', swaggerUi.serve);
+routes.get('/docs', swaggerUi.setup(swaggerDocument,{ customCss: '.swagger-ui .topbar { display: none }' }));
+
+//reCAPTCHA-v3
+routes.post('/captcha/send', reCAPTCHA.handleSend);
+
+//Authenticate
+routes.post('/users/register',usersController.register);
+routes.post('/users/authenticate',usersController.auth);
+routes.post('/users/forgot_password',usersController.forgot);
+routes.post('/users/reset_password',usersController.reset);
+
+routes.use(authMiddleware);
+
+//CRUD de User
+routes.get('/users/',usersController.index);
+routes.get('/users/:id',usersController.show);
+routes.put('/users/:id',usersController.update);
+routes.delete('/users/:id',usersController.destroy);
+
+//CRUD de Session
+routes.post('/sessions/logout',sessionsController.logout);
+routes.post('/sessions/storeHistory', sessionsController.storeHistoryFront);
+routes.get('/sessions/',sessionsController.index);
+routes.put('/sessions/:id',sessionsController.update);
+routes.delete('/sessions/:id',sessionsController.destroy);
+
+//CRUD de images
+routes.post('/posts/', multer(multerConfig).single('file'),imagesController.store);
+routes.post('/posts/search', imagesController.find);
+routes.get('/posts/', imagesController.index);
+routes.delete('/posts/:id', imagesController.destroy);
+
+module.exports = routes;
