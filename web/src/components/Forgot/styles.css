@@ -1,4 +1,4 @@
-#login-screen-wrapper {
+#forgot-screen-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -6,7 +6,7 @@
     background-color: #dbdbdb;
 }
 
-.login-container {
+.forgot-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,7 +20,7 @@
     box-shadow: 4px 3px 5px 6px rgba(179,179,179,1);
 }
 
-.login-container img {
+.forgot-container img {
     margin-bottom: 30px;
     width: 380px;
 }
@@ -35,13 +35,13 @@
     margin-bottom: 30px;
 }
 
-.login-container form {
+.forgot-container form {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 90%;
 }
 
-.login-container a{
+.forgot-container a{
     text-align: right;
     font-size: 14px;
     color: #555;
@@ -53,8 +53,4 @@
 .btn-container {
     display: flex;
     flex-direction: row;
-}
-
-.btn-container #login-container {
-    margin-left: auto;
 }

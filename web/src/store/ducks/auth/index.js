@@ -6,8 +6,10 @@ const INITIAL_STATE = {
 
 export const login = createAction('LOGIN');
 export const logout = createAction('LOGOUT');
+export const register = createAction('REGISTER');
 
 export default createReducer(INITIAL_STATE, {
     [login.type]: (state, action) => ({...state, isLogged: true}),
-    [logout.type]: (state, action) => ({...state, isLogged: false})
+    [logout.type]: (state, action) => ({...state, isLogged: false}),
+    [register.type]: (state, action) => ({...state, ...action.payload})
 });

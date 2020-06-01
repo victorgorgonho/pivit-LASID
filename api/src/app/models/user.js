@@ -3,11 +3,11 @@ const bcrypt = require('bcryptjs');
 
 
 const UserSchema = new mongoose.Schema({
-    first_name:{
+    firstName:{
         type: String,
         required: true,
     },
-    last_name:{
+    lastName:{
         type: String,
         required: true,
     },
@@ -15,10 +15,6 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required:true,
         unique:true,
-    },
-    age:{
-        type: Number,
-        required:true,
     },
     email:{
         type: String,
@@ -53,7 +49,7 @@ const UserSchema = new mongoose.Schema({
     },
     userType:{
         type: String,
-        required: true,
+        default: 'common'
     },
     passwordResetToken:{
         type: String,

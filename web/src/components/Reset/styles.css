@@ -1,4 +1,4 @@
-#login-screen-wrapper {
+#reset-screen-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -6,7 +6,7 @@
     background-color: #dbdbdb;
 }
 
-.login-container {
+.reset-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,7 +20,7 @@
     box-shadow: 4px 3px 5px 6px rgba(179,179,179,1);
 }
 
-.login-container img {
+.reset-container img {
     margin-bottom: 30px;
     width: 380px;
 }
@@ -35,13 +35,13 @@
     margin-bottom: 30px;
 }
 
-.login-container form {
+.reset-container form {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 90%;
 }
 
-.login-container a{
+.reset-container a{
     text-align: right;
     font-size: 14px;
     color: #555;
@@ -55,6 +55,6 @@
     flex-direction: row;
 }
 
-.btn-container #login-container {
+.btn-container #reset-container {
     margin-left: auto;
 }
