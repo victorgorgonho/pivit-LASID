@@ -1,6 +1,4 @@
-const swaggerUi = require('swagger-ui-express');
 const express = require('express');
-const swaggerDocument = require('./docs/doc.json');
 const multer = require('multer');
 const multerConfig = require('./config/multer');
 
@@ -11,14 +9,12 @@ const authMiddleware = require('./app/middlewares/auth');
 const usersController = require('./app/controllers/usersController');
 const sessionsController = require('./app/controllers/sessionsController');
 const imagesController = require('./app/controllers/imagesController');
+const exerciseController = require('./app/controllers/exerciseController');
 
 //Importing scripts
 const reCAPTCHA = require('./app/controllers/scripts/reCAPTCHA-v3');
 
 const routes = express.Router(); 
-
-routes.use('/docs', swaggerUi.serve);
-routes.get('/docs', swaggerUi.setup(swaggerDocument,{ customCss: '.swagger-ui .topbar { display: none }' }));
 
 //reCAPTCHA-v3
 routes.post('/captcha/send', reCAPTCHA.handleSend);
@@ -39,15 +35,22 @@ routes.delete('/users/:id',usersController.destroy);
 
 //CRUD de Session
 routes.post('/sessions/logout',sessionsController.logout);
-routes.post('/sessions/storeHistory', sessionsController.storeHistoryFront);
 routes.get('/sessions/',sessionsController.index);
 routes.put('/sessions/:id',sessionsController.update);
 routes.delete('/sessions/:id',sessionsController.destroy);
 
 //CRUD de images
 routes.post('/posts/', multer(multerConfig).single('file'),imagesController.store);
+routes.post('/posts/native', imagesController.storeNative);
 routes.post('/posts/search', imagesController.find);
 routes.get('/posts/', imagesController.index);
 routes.delete('/posts/:id', imagesController.destroy);
+
+//CRUD de exercícios
+routes.post('/exercises/', exerciseController.store);
+routes.post('/exercises/filter', exerciseController.filter);
+routes.get('/exercises/', exerciseController.index);
+routes.put('/exercises/:id', exerciseController.update);
+routes.delete('/exercises/:id', exerciseController.destroy);
 
 module.exports = routes;

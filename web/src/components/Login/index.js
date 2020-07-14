@@ -80,9 +80,9 @@ export default function Login () {
 
   return (
     <div id="login-screen-wrapper" >
-      { /* dataRef.on('value', (snapshot) => {
+      { dataRef.on('value', (snapshot) => {
         console.log(snapshot.val());
-      })  */}
+      }) }
       <div className="login-container">
         <img src={logo} alt="logo"/>
 

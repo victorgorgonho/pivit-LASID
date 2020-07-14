@@ -13,6 +13,7 @@
   "dependencies": {
     "aws-sdk": "^2.678.0",
     "axios": "^0.19.2",
+    "base64-arraybuffer": "^0.2.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -28,6 +29,7 @@
     "nodemailer": "^6.4.6",
     "nodemailer-express-handlebars": "^4.0.0",
     "path": "^0.12.7",
+    "react-native-fs": "^2.16.6",
     "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {

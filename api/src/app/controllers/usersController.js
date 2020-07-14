@@ -48,6 +48,7 @@ module.exports = {
                 token: session.token,
             });
         } catch (error) {
+            console.log(error);
             if (error.code == 11000) {   
                 return res.status(409).send({ error: 'CPF ou Email já cadastrado' });
             }else if (error.code == 10000) {   
@@ -79,7 +80,6 @@ module.exports = {
             await sessionsController.deactivate(email);
             const session = {
                 token : `Bearer ${generateToken({id:user.id})}`,
-                actionsHistory : [0],
                 active : true,
                 userId : user.id,
                 userEmail : email,
@@ -172,8 +172,6 @@ module.exports = {
     async index(req,res){
         try {
             const users = await User.find({}, {passwordResetExpires: 0, __v: 0, data: 0});
-
-            await sessionsController.storeHistoryBack({ actionID: 8, token: req.headers.authorization });
         
             if (users.length == 0) {
                 return res.send('Não há usuários cadastrados');
@@ -181,6 +179,7 @@ module.exports = {
                 return res.json(users);
             }
         } catch (error) {
+            console.log(error);
             return res.status(500).send({ error: 'Falha ao listar usuários' });
         }
     },
@@ -222,7 +221,6 @@ module.exports = {
                 return res.status(404).send({ error: 'Usuário não encontrado' });
             }
             
-            await sessionsController.storeHistoryBack({ actionID: 10, token: req.headers.authorization });
             return res.json(user);
         } catch (error) {
             if (error.code == 11000) {   
@@ -245,7 +243,6 @@ module.exports = {
                 return res.status(404).send({ error: 'Usuário não encontrado' });
             }
 
-            await sessionsController.storeHistoryBack({ actionID: 9, token: req.headers.authorization });
             return res.send('Removido');
         } catch (error) {
             if (error.name == "CastError"){

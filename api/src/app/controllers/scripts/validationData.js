@@ -54,12 +54,12 @@ module.exports = {
             (dom.indexOf(".") >=1)&& 
             (dom.lastIndexOf(".") < dom.length - 1)) {
 
-                const apiKey = "at_OtTgrhULkixXNZpF5oX7eZ1QO7Amt";
-                const dataEmail = await axios.get(`https://emailverification.whoisxmlapi.com/api/v1?apiKey=${apiKey}&emailAddress=${email}`);
-
-                if (dataEmail.data.smtpCheck === 'true') {
+                //const apiKey = "at_OtTgrhULkixXNZpF5oX7eZ1QO7Amt";
+                //const dataEmail = await axios.get(`https://emailverification.whoisxmlapi.com/api/v1?apiKey=${apiKey}&emailAddress=${email}`);
+                
+                //if (dataEmail.data.smtpCheck === 'true') {
                     return true;
-                }
+                //}
                 
         }
             throw { code: 10000, name: "Email inválido" };

@@ -13,10 +13,6 @@ const SessionSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    actionsHistory:{
-        type: [Number],
-        default: [],
-    },
     token:{
         type: String,
         required: true,

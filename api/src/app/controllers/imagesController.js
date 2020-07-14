@@ -1,4 +1,6 @@
 const Post = require('../models/post');
+const aws = require('aws-sdk');
+const crypto = require('crypto');
 
 module.exports = {
     async store (req,res){
@@ -20,6 +22,59 @@ module.exports = {
 
             return res.json(post);
         }catch(error){
+            console.log(error);
+            if(error.name == 'ValidationError')
+                return res.status(400).send({ error: 'Informações incompletas'});
+            
+            return res.status(500).send({ error: 'Falha ao armazenar imagem'});
+        }
+    },
+
+    async storeNative (req, res){
+        try{
+            const file = req.body;
+
+            const s3bucket = new aws.S3({
+                accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+                Bucket: process.env.BUCKET_NAME,
+                signatureVersion: 'v4',
+            });
+
+            let contentType = 'image/jpeg';
+            let contentDeposition = 'inline;filename="' + file.name + '"';
+            const base64 = file.base64;
+            const arrayBuffer = Buffer.from(base64, 'base64');
+            
+            const hash = crypto.randomBytes(16).toString('hex');        
+            file.key = `${hash}-${file.name}`;
+            file.url = `https://lasid.s3.amazonaws.com/${file.key}`;
+
+            s3bucket.createBucket(() => {
+                const params = {
+                    Bucket: process.env.BUCKET_NAME,
+                    Key: file.key,
+                    Body: arrayBuffer,
+                    ContentDisposition: contentDeposition,
+                    ContentType: contentType,
+                    ACL: 'public-read',
+                };
+                s3bucket.upload(params, (err, data) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            });
+            
+            const post = await Post.create({
+                name: file.name,
+                size: file.size,
+                key: file.key,
+                url: file.url
+            });
+
+            return res.json(post);
+        } catch(error) {
             if(error.name == 'ValidationError')
                 return res.status(400).send({ error: 'Informações incompletas'});
             

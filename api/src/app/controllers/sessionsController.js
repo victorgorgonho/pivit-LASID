@@ -43,49 +43,7 @@ module.exports = {
             throw { code: 10000, name:'Falha ao desativar sessions'};
         }
     }, 
-    async storeHistoryBack (params) {
-        try {
-            const { actionID, token } = params;
-            let newSession = await Session.find({token, active: true});
-            
-            if(!newSession)
-                throw { code: 404, name:'Session não encontrada' };
-            
-            newSession[0].actionsHistory.push(actionID);
-            await Session.findByIdAndUpdate(newSession[0]._id, newSession[0], { new: true });
-        } catch(err) {
-            if(err.name == 'CastError')
-                throw { code: 404, name:'Session não encontrada' };
-            throw { code: 500, name: 'Falha ao adicionar ação a action' };
-        }
-    },
     
-    async storeHistoryFront (req, res) {
-        try {
-            const { actionID } = req.body;
-            const token = req.headers.authorization;
-            let newSession = await Session.find({token, active: true});
-
-            if(!newSession)
-                return res.status(404).send({ error: 'Session não encontrada' });
-
-            if(!actionID)
-                return res.status(400).send({ error: 'Informações incompletas'});
-
-            if(actionID < 0 || actionID > 15)
-                return res.status(400).send({ error: 'Ação inexistente'});
-
-            newSession[0].actionsHistory.push(actionID);
-            const session = await Session.findByIdAndUpdate(newSession[0]._id, newSession[0], { new: true });
-
-            return res.json(session);
-        } catch(err) {
-            if(err.name == 'CastError')
-                return res.status(404).send({ error: 'Session não encontrada'});
-            
-            return res.status(500).send({ error: 'Falha ao adicionar ação à session' });
-        }
-    },
     async index (req, res) {
         try {
             const sessions = await Session.find();

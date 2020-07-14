@@ -1,7 +1,6 @@
 const mongoose = require('../../database');
 const bcrypt = require('bcryptjs');
 
-
 const UserSchema = new mongoose.Schema({
     firstName:{
         type: String,
@@ -33,15 +32,13 @@ const UserSchema = new mongoose.Schema({
     },
     address_city:{
         type: String,
-        required:true,
     },
     address_state:{
         type: String,
-        required:true,
     },
     address_country:{
         type: String,
-        required:true,
+        default: 'Brazil'
     },
     address_zipcode:{
         type: String,
@@ -75,3 +72,7 @@ UserSchema.pre('save', async function(next){
 const User = mongoose.model('User', UserSchema);
 
 module.exports = User;
+
+//Home web - Consultas (dia, total)
+//Home celular - Menu de exercícios
+//Tempo do exercicio / Velocidade / Distancia / Batimento - Tela de exercício
