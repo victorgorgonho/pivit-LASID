@@ -38,7 +38,7 @@ module.exports = {
       return res.status(500).send({ error: 'Falha ao listar exercícios' });
     }
   },
-  async filter(req,res){
+  async filterUser(req,res){
     try {
       const { userEmail } = req.body;
 
@@ -55,6 +55,37 @@ module.exports = {
     } catch (error) {
         return res.status(500).send({ error: 'Falha ao filtrar exercícios' });
     }
+  },
+  async filterDate(req,res){
+    try {
+      const { date, userEmail } = req.body;
+      const convertedDate = new Date(date);
+
+      if(!await User.findOne({email: userEmail}))
+        return res.status(404).send({ error: 'Usuário não encontrado' });
+      
+      const exercises = await Exercise.find({userEmail});
+
+      if(!exercises)
+        return res.status(404).send({ error: 'Usuário não possui exercícios registrados' });
+
+      const filteredExercises = exercises.filter(exercise => {
+        const exerciseDate = exercise.createdAt;
+        
+        if(convertedDate.getUTCFullYear() === exerciseDate.getUTCFullYear()){
+          if(convertedDate.getUTCMonth() === exerciseDate.getUTCMonth()){
+            if(convertedDate.getUTCDate() === exerciseDate.getUTCDate()){
+              return exercise;
+            }
+          }
+        }
+      });
+
+      return res.send({ filteredExercises });
+    } catch (error) {
+      return res.status(500).send({ message: 'Falha ao filtrar exercícios' });
+  }
+
   },
   async update(req,res){
     try {

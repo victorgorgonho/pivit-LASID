@@ -114,7 +114,7 @@ const Home = () => {
     };
 
     const handleNavigate = () => {
-        if(name !== '' && time >= 0){
+        if(name !== '' && name !== null && time >= 0){
             const data = {
                 name: name,
                 time: time ? time : 1

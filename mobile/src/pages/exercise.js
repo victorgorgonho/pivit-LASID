@@ -68,6 +68,15 @@ const Exercise = () => {
         setHeartbeat(newItems);
       });
 
+    firebase.database().ref('/Distancia').push(1);
+    firebase.database()
+      .ref('/Distancia')
+      .on('value', snapshot => {
+        let newItems = [];
+        snapshot.forEach(item => {newItems.push(item.val())});
+        setDistance(newItems);
+      });  
+
     firebase.database().ref('/Velocidade').push(1);
     firebase.database()
       .ref('/Velocidade')
@@ -76,15 +85,6 @@ const Exercise = () => {
         snapshot.forEach(item => {newItems.push(item.val())});
         setVelocity(newItems);
       });
-
-    firebase.database().ref('/Distancia').push(1);
-    firebase.database()
-      .ref('/Distancia')
-      .on('value', snapshot => {
-        let newItems = [];
-        snapshot.forEach(item => {newItems.push(item.val())});
-        setDistance(newItems);
-      });      
   }, []);
 
   useEffect(() => {
@@ -99,25 +99,28 @@ const Exercise = () => {
     setModalVisible(true);
 
     const averageHeartbeat = calculateAverage(heartbeat);
-    const averageVelocity = calculateAverage(velocity);
     const averageDistance = calculateAverage(distance);
+    const averageVelocity = calculateAverage(velocity);
 
     setTimeout(() => {
-      storeExercise(averageHeartbeat, averageVelocity, averageDistance);
+      storeExercise(averageHeartbeat, averageDistance, averageVelocity);
       setModalVisible(false);
       navigation.navigate('Home');
     }, 6000);
   };
 
-  const storeExercise = async (averageHeartbeat, averageVelocity, averageDistance) => {
+  const storeExercise = async (averageHeartbeat, averageDistance, averageVelocity) => {
     try{
       const exercise = {
         userEmail: loggedInUser.email,
         name,
         time,
+        heartbeat,
         averageHeartbeat,
-        averageVelocity,
-        averageDistance
+        distance,
+        averageDistance,
+        velocity,
+        averageVelocity
       }; 
 
       const response = await api.post('exercises', exercise, {headers: {Authorization: token}});

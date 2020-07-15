@@ -15,12 +15,24 @@ const ExerciseSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  heartbeat: {
+    type: [Number],
+    required: true,
+  },
   averageHeartbeat: {
     type: Number,
     required: true,
   },
+  distance: {
+    type: [Number],
+    required: true,
+  },
   averageDistance: {
     type: Number,
+    required: true,
+  },
+  velocity: {
+    type: [Number],
     required: true,
   },
   averageVelocity: {

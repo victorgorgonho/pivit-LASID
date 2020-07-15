@@ -48,7 +48,8 @@ routes.delete('/posts/:id', imagesController.destroy);
 
 //CRUD de exercícios
 routes.post('/exercises/', exerciseController.store);
-routes.post('/exercises/filter', exerciseController.filter);
+routes.post('/exercises/filter/user', exerciseController.filterUser);
+routes.post('/exercises/filter/date', exerciseController.filterDate);
 routes.get('/exercises/', exerciseController.index);
 routes.put('/exercises/:id', exerciseController.update);
 routes.delete('/exercises/:id', exerciseController.destroy);
